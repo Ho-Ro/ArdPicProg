@@ -1,11 +1,11 @@
 
 TARGET = ardpicprog
 MANPAGE = ardpicprog.1
-VERSION = 0.1.2
+VERSION = 1.8.horo
 
-PREFIX = /usr/local
+PREFIX = /usr
 BINDIR = $(PREFIX)/bin
-MANDIR = $(PREFIX)/man
+MANDIR = $(PREFIX)/share/man
 
 MKDIR_P = mkdir -p
 RM_F = rm -f
@@ -34,6 +34,10 @@ uninstall:
 
 clean:
 	$(RM_F) $(TARGET) $(TARGET).exe $(OBJECTS)
+
+deb:	all
+	fakeroot checkinstall --default --pkggroup=electronics --install=no --backup=no --deldoc=yes
+
 
 hexfile.o: hexfile.h serialport.h
 main.o: serialport.h hexfile.h

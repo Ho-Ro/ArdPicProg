@@ -1,5 +1,9 @@
 ## Change log
 
+### 1.8.horo
+* Combined Arduino and host program into one repo and synced the versions.
+
+
 ### 0.1.1
 
 * Native Win32 version of the serial port code.

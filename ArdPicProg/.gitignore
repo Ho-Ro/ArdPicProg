@@ -1,0 +1,8 @@
+*.o
+*~
+*.new
+*.orig
+*.hex
+*.deb
+description-pak
+ardpicprog
