@@ -52,6 +52,8 @@ public:
     int timeout() const { return timeoutSecs; }
     void setTimeout(int timeout) { timeoutSecs = timeout; }
 
+    void setQuiet(bool quiet) { _quiet = quiet; }
+
 private:
 #ifdef SERIAL_POSIX
     int fd;
@@ -66,6 +68,7 @@ private:
     int buflen;
     int bufposn;
     int timeoutSecs;
+    bool _quiet = false;
 
     void init();
 

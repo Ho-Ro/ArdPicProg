@@ -110,7 +110,7 @@ bool SerialPort::open(const std::string &deviceName, int speed)
         if (!response.empty()) {
             if (response.find("ProgramPIC 1.") == 0) {
                 // We've found a version 1 sketch, which we can talk to.
-                fprintf(stderr, "%s\n", response.c_str());
+                _quiet || printf("%s\n", response.c_str());
                 break;
             } else if (response.find("ProgramPIC ") == 0) {
                 // Version 2 or higher sketch - cannot talk to this.

@@ -38,6 +38,7 @@ public:
     typedef unsigned short Word;
 
     bool setDeviceDetails(const DeviceInfoMap &details);
+    void setQuiet( bool quiet ) { _quiet = quiet; }
 
     std::string deviceName() { return _deviceName; }
     void setDeviceName(const std::string &name) { _deviceName = name; }
@@ -114,6 +115,7 @@ private:
     int _programBits;
     int _dataBits;
     int _format;
+    bool _quiet = false;
     std::vector<HexFileBlock> blocks;
     Address count;
 

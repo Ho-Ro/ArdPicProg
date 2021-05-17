@@ -103,8 +103,6 @@ int main(int argc, char *argv[])
         opt_port = env;
     if (opt_port.empty())
         opt_port = DEFAULT_PIC_PORT;
-fputs(opt_port.c_str(), stderr);
-fputs("\n", stderr);
     while ((opt = getopt_long(argc, argv, "c:d:hi:o:p:qv",
                               long_options, 0)) != -1) {
         switch (opt) {
@@ -211,9 +209,12 @@ fputs("\n", stderr);
         return EXIT_CODE_USAGE;
     }
 
+    opt_quiet || puts(opt_port.c_str());
+
     // Try to open the serial port and initialize the programmer.
-    printf("Initializing programmer ...\n");
+    opt_quiet || printf("Initializing programmer ...\n");
     SerialPort port;
+    port.setQuiet(opt_quiet);
     if (!port.open(opt_port, opt_speed))
         return EXIT_CODE_IO_ERROR;
 
@@ -236,9 +237,10 @@ fputs("\n", stderr);
         return EXIT_CODE_UNKNOWN_DEVICE;
     }
     hexFile.setFormat(opt_format);
+    hexFile.setQuiet(opt_quiet);
 
     // Dump the type of device and how much memory it has.
-    printf("Device %s, program memory: %ld words, data memory: %ld bytes.\n",
+    opt_quiet || printf("Device %s, program memory: %ld words, data memory: %ld bytes.\n",
            hexFile.deviceName().c_str(), hexFile.programSizeWords(),
            hexFile.dataSizeBytes());
 
@@ -270,7 +272,7 @@ fputs("\n", stderr);
     if (opt_erase) {
         if (opt_force_calibration) {
             if (hexFile.canForceCalibration()) {
-                printf("Erasing and removing code protection.\n");
+                opt_quiet || printf("Erasing and removing code protection.\n");
                 if (!port.command("ERASE NOPRESERVE")) {
                     fprintf(stderr, "Erase of device failed\n");
                     return EXIT_CODE_IO_ERROR;
@@ -280,7 +282,7 @@ fputs("\n", stderr);
                 return EXIT_CODE_IO_ERROR;
             }
         } else {
-            printf("Erasing and removing code protection.\n");
+            opt_quiet || printf("Erasing and removing code protection.\n");
             if (!port.command("ERASE")) {
                 fprintf(stderr, "Erase of device failed\n");
                 return EXIT_CODE_IO_ERROR;

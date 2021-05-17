@@ -230,27 +230,27 @@ bool HexFile::read(SerialPort *port)
 {
     blocks.clear();
     if (_programStart <= _programEnd) {
-        printf("Reading program memory,\n");
+        _quiet || printf("Reading program memory,\n");
         if (!readBlock(port, _programStart, _programEnd))
             return false;
     } else {
-        printf("Skipped reading program memory,\n");
+        _quiet || printf("Skipped reading program memory,\n");
     }
     if (_dataStart <= _dataEnd) {
-        printf("reading data memory,\n");
+        _quiet || printf("reading data memory,\n");
         if (!readBlock(port, _dataStart, _dataEnd))
             return false;
     } else {
-        printf("skipped reading data memory,\n");
+        _quiet || printf("skipped reading data memory,\n");
     }
     if (_configStart <= _configEnd) {
-        printf("reading id words and fuses,\n");  // Done in one hit.
+        _quiet || printf("reading id words and fuses,\n");  // Done in one hit.
         if (!readBlock(port, _configStart, _configEnd))
             return false;
     } else {
-        printf("skipped reading id words and fuses,\n");
+        _quiet || printf("skipped reading id words and fuses,\n");
     }
-    printf("done.\n");
+    _quiet || printf("done.\n");
     return true;
 }
 
@@ -277,7 +277,7 @@ bool HexFile::write(SerialPort *port, bool forceCalibration)
     // Write the contents of program memory.
     count = 0;
     if (_programStart <= _programEnd) {
-        printf("Burning program memory,");
+        _quiet || printf("Burning program memory,");
         fflush(stdout);
         if (forceCalibration || _reservedStart > _reservedEnd) {
             // Calibration forced or no reserved words to worry about.
@@ -290,33 +290,33 @@ bool HexFile::write(SerialPort *port, bool forceCalibration)
         }
         reportCount();
     } else {
-        printf("Skipped burning program memory,\n");
+        _quiet || printf("Skipped burning program memory,\n");
     }
 
     // Write data memory before config memory in case the configuration
     // word turns on data protection and thus hinders data verification.
     if (_dataStart <= _dataEnd) {
-        printf("burning data memory,");
+        _quiet || printf("burning data memory,");
         fflush(stdout);
         if (!writeBlock(port, _dataStart, _dataEnd, forceCalibration))
             return false;
         reportCount();
     } else {
-        printf("skipped burning data memory,\n");
+        _quiet || printf("skipped burning data memory,\n");
     }
 
     // Write the contents of config memory.
     if (_configStart <= _configEnd) {
-        printf("burning id words and fuses,");
+        _quiet || printf("burning id words and fuses,");
         fflush(stdout);
         if (!writeBlock(port, _configStart, _configEnd, forceCalibration))
             return false;
         reportCount();
     } else {
-        printf("skipped burning id words and fuses,");
+        _quiet || printf("skipped burning id words and fuses,");
     }
 
-    printf("done.\n");
+    _quiet || printf("done.\n");
     return true;
 }
 
@@ -352,9 +352,9 @@ bool HexFile::writeBlock(SerialPort *port, Address start, Address end, bool forc
 void HexFile::reportCount()
 {
     if (count == 1)
-        printf(" 1 location,\n");
+        _quiet || printf(" 1 location,\n");
     else
-        printf(" %lu locations,\n", count);
+        _quiet || printf(" %lu locations,\n", count);
     count = 0;
 }
 
