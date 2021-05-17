@@ -100,6 +100,7 @@ bool SerialPort::open(const std::string &deviceName, int speed)
     // At this point, the Arduino may auto-reset so we have to wait for
     // it to come back up again.  Poll the "PROGRAM_PIC_VERSION" command
     // once a second until we get a response.  Give up after 5 seconds.
+    // To avoid the auto-reset connect a capacitor > 1µF from /Reset to GND.
     int retry = 5;
     int saveTimeout = timeoutSecs;
     timeoutSecs = 1;
