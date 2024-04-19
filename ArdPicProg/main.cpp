@@ -52,6 +52,7 @@ static struct option long_options[] = {
 
     /* These options are specific to ardpicprog - not present in picprog */
     {"list-devices", no_argument, 0, 'l'},
+    {"detect", no_argument, 0, 'D'},
     {"speed", required_argument, 0, 'S'},
 
     {0, 0, 0, 0}
@@ -69,6 +70,7 @@ bool opt_erase = false;
 bool opt_burn = false;
 bool opt_force_calibration = false;
 bool opt_list_devices = false;
+bool opt_detect = false;
 int opt_speed = 115200;
 
 #ifndef DEFAULT_PIC_PORT
@@ -124,6 +126,10 @@ int main(int argc, char *argv[])
             // Set the type of PIC device to program.
             opt_device = optarg;
             break;
+        case 'D':
+            // detect programmer and device
+            opt_detect = true;
+            break;
         case 'e':
             // Erase the PIC.
             opt_erase = true;
@@ -175,8 +181,8 @@ int main(int argc, char *argv[])
         }
     }
 
-    // Bail out if we don't at least have -i, -o, --erase, or --list-devices.
-    if (opt_input.empty() && opt_output.empty() && !opt_erase && !opt_list_devices) {
+    // Bail out if we don't at least have -i, -o, --erase, --list-devices, or --detect.
+    if (opt_input.empty() && opt_output.empty() && !opt_erase && !opt_list_devices && !opt_detect) {
         usage(argv[0]);
         return EXIT_CODE_USAGE;
     }
@@ -243,6 +249,11 @@ int main(int argc, char *argv[])
     opt_quiet || printf("Device %s, program memory: %ld words, data memory: %ld bytes.\n",
            hexFile.deviceName().c_str(), hexFile.programSizeWords(),
            hexFile.dataSizeBytes());
+
+    // Exit after showing detected programmer and device parameter
+    if (opt_detect) {
+        return EXIT_CODE_OK;
+    }
 
     // Read the input file.
     if (!opt_input.empty()) {
@@ -318,6 +329,6 @@ static void usage(const char *argv0)
     fprintf(stderr, "    --device DEVTYPE -d DEVTYPE --pic-serial-port PORT -p PORT\n");
     fprintf(stderr, "    --input-hexfile INPUT -i INPUT --output-hexfile OUTPUT -o OUTPUT\n");
     fprintf(stderr, "    --ihx8m --ihx16 --ihx32 --cc-hexfile CCFILE -c CCFILE --skip-ones\n");
-    fprintf(stderr, "    --erase --burn --force-calibration --list-devices --speed SPEED\n");
+    fprintf(stderr, "    --erase --burn --force-calibration --list-devices --detect --speed SPEED\n");
 }
 

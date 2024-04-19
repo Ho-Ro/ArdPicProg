@@ -8,7 +8,7 @@
     --device DEVTYPE -d DEVTYPE --pic-serial-port PORT -p PORT
     --input-hexfile INPUT -i INPUT --output-hexfile OUTPUT -o OUTPUT
     --ihx8m --ihx16  --ihx32 --cc-hexfile CCFILE -c CCFILE --skip-ones
-    --erase --burn --force-calibration --list-devices --speed SPEED
+    --erase --burn --force-calibration --list-devices --detect --speed SPEED
 
 ## ENVIRONMENT
     PIC_DEVICE PIC_PORT
