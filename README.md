@@ -18,3 +18,6 @@ PIC16F628A and friends. The solution has three parts:
   implements the serial protocol and controls the PIC programming
   process on the computer side. Tested under Linux, should also work on Windows.
 
+* [QPICkit](https://github.com/Ho-Ro/QPICkit) is a simple GUI for `ardpicprog` and `pk2cmd`,
+  the CLI for use with the original PICkit2 and compatible programmer devices.
+
