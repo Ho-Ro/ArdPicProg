@@ -143,6 +143,7 @@ const char s_pic16f648a[] PROGMEM = "pic16f648a";
 const char s_pic16f684[] PROGMEM = "pic16f684";
 const char s_pic16f688[] PROGMEM = "pic16f688";
 const char s_pic16f690[] PROGMEM = "pic16f690";
+const char s_pic16f872[] PROGMEM = "pic16f872";
 const char s_pic16f877[] PROGMEM = "pic16f877";
 const char s_pic16f877a[] PROGMEM = "pic16f877a";
 const char s_pic16f882[] PROGMEM = "pic16f882";
@@ -201,6 +202,7 @@ struct deviceInfo const devices[] PROGMEM = {
     {s_pic16f690, 0x1400, 4096, 0x2000, 0x2100, 9, 256, 1, 0, FLASH4, EEPROM, MCLR_first},
     
     // http://ww1.microchip.com/downloads/en/DeviceDoc/39025f.pdf
+    {s_pic16f872, 0x08E0, 2048, 0x2000, 0x2100, 8,  64, 0, 0, FLASH4, EEPROM, MCLR_first},
     {s_pic16f877, 0x09A0, 8192, 0x2000, 0x2100, 8, 256, 0, 0, FLASH4, EEPROM, MCLR_first},
 
     // http://ww1.microchip.com/downloads/en/DeviceDoc/39589b.pdf
